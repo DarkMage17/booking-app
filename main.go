@@ -1,15 +1,15 @@
 package main
 
 import (
-	"fmt"
-	"strings"
 	"booking-app/util"
+	"fmt"
+	"strconv"
 )
 
 var conferenceName string = "Go conference"
 const conferenceTickets int = 50
 var remainingTickets int = 50
-var bookings = []string{}
+var bookings = make([]map[string]string, 0)
 
 func main(){
 
@@ -56,8 +56,7 @@ func greetUsers(){
 func printFirstNames() []string{
 	firstNames := []string{}
 	for _, booking := range bookings {
-		var names = strings.Fields(booking)
-		firstNames = append(firstNames, names[0])
+		firstNames = append(firstNames, booking["firstName"])
 	}
 	return firstNames;
 }
@@ -84,7 +83,15 @@ func getUserInput() (string, string, string, int){
 
 func bookTicket(userTickets int, firstName string, lastName string, email string){
 	remainingTickets = remainingTickets - userTickets
-	bookings = append(bookings, firstName + " " + lastName)
+
+	var userData = make(map[string]string)
+	userData["firstName"] = firstName
+	userData["lastName"] = lastName
+	userData["email"] = email
+	userData["numberTickets"] = strconv.FormatInt(int64(userTickets), 10)
+
+	bookings = append(bookings, userData)
+	fmt.Printf("List of bookings is %v\n", bookings)
 
 	fmt.Printf("Thank you %v %v for booking %v tickets. You will receive a confirmation email at %v.\n", firstName, lastName, userTickets, email)
 	fmt.Printf("%v tickets remaining for %v\n", remainingTickets, conferenceName)
