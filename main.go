@@ -3,6 +3,7 @@ package main
 import (
 	"fmt"
 	"strings"
+	"booking-app/util"
 )
 
 var conferenceName string = "Go conference"
@@ -18,7 +19,7 @@ func main(){
 
 		firstName, lastName, email, userTickets := getUserInput()
 
-		isValidName, isValidEmail, isValidTicketNumber := validateData(firstName, lastName, email, userTickets)
+		isValidName, isValidEmail, isValidTicketNumber := util.ValidateData(firstName, lastName, email, userTickets, remainingTickets)
 
 		if isValidName && isValidEmail && isValidTicketNumber{
 
@@ -61,12 +62,7 @@ func printFirstNames() []string{
 	return firstNames;
 }
 
-func validateData(firstName string, lastName string, email string, userTickets int) (bool, bool, bool){
-	isValidName := len(firstName) >= 2 && len(lastName) >= 2
-	isValidEmail := strings.Contains(email, "@")
-	isValidTicketNumber := userTickets > 0 && userTickets < remainingTickets
-	return isValidName, isValidEmail, isValidTicketNumber
-}
+
 
 func getUserInput() (string, string, string, int){
 	var firstName string
